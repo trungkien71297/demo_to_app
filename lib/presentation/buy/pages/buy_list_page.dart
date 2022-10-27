@@ -1,5 +1,8 @@
 import 'package:demo_app/common/common_widgets.dart';
+import 'package:demo_app/presentation/buy/bloc/buy_bloc.dart';
+import 'package:demo_app/presentation/buy/widgets/buy_list_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class BuyListPage extends StatelessWidget {
   static const route = 'buy_list_page';
@@ -9,29 +12,21 @@ class BuyListPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: createAppBar('BUY LIST'),
-        body: ListView.separated(
-            itemBuilder: ((context, index) {
-              return Card(
-                child: SizedBox(
-                  height: 100,
-                  child: Padding(
-                    padding: const EdgeInsets.all(10.0),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: const [
-                        Text('Name: Macbook Pro'),
-                        Text('Price: 205000'),
-                        Text('Quantity: 15'),
-                      ],
-                    ),
-                  ),
-                ),
-              );
-            }),
-            separatorBuilder: ((context, index) => const Divider(
-                  height: 1,
-                )),
-            itemCount: 3));
+        body: Center(
+          child: BlocBuilder(
+            bloc: BlocProvider.of<BuyBloc>(context),
+            builder: (context, state) {
+              if (state is BuyInitial) {
+                BlocProvider.of<BuyBloc>(context).add(BuyListFetch());
+                return const SizedBox();
+              } else if (state is BuyFetching) {
+                return const CircularProgressIndicator();
+              } else if (state is BuyFetched) {
+                return BuyListWidget(items: state.items);
+              }
+              return const SizedBox();
+            },
+          ),
+        ));
   }
 }

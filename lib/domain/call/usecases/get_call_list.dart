@@ -1,5 +1,5 @@
 import 'package:demo_app/common/usecase.dart';
-import 'package:demo_app/domain/call/models/call_item.dart';
+import 'package:demo_app/domain/call/entities/call_item.dart';
 import 'package:demo_app/domain/call/repositories/call_repository.dart';
 
 class GetCallList extends Usecase<List<CallItem>, NoParams> {

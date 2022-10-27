@@ -6,3 +6,5 @@ abstract class SellEvent extends Equatable {
   @override
   List<Object> get props => [];
 }
+
+class SellListFetch extends SellEvent {}

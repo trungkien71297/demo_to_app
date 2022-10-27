@@ -6,3 +6,5 @@ abstract class CallEvent extends Equatable {
   @override
   List<Object> get props => [];
 }
+
+class CallListFetch extends CallEvent {}

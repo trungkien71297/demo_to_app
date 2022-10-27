@@ -1,4 +1,4 @@
-import 'package:demo_app/domain/call/models/call_item.dart';
+import 'package:demo_app/domain/call/entities/call_item.dart';
 import 'package:json_annotation/json_annotation.dart';
 part 'call_item_model.g.dart';
 

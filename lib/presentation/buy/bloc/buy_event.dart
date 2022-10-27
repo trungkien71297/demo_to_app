@@ -6,3 +6,5 @@ abstract class BuyEvent extends Equatable {
   @override
   List<Object> get props => [];
 }
+
+class BuyListFetch extends BuyEvent {}

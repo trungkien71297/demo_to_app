@@ -1,11 +1,10 @@
-import 'package:demo_app/domain/buy/models/buy_item.dart';
+import 'package:demo_app/domain/sell/entities/sell_item.dart';
 import 'package:json_annotation/json_annotation.dart';
-
-part 'buy_item_model.g.dart';
+part 'sell_item_model.g.dart';
 
 @JsonSerializable()
-class BuyItemModel extends BuyItem {
-  const BuyItemModel(
+class SellItemModel extends SellItem {
+  const SellItemModel(
       {required id,
       required name,
       required price,
@@ -16,7 +15,7 @@ class BuyItemModel extends BuyItem {
   @override
   List<Object> get props => [id, name, price, quantity, type];
 
-  factory BuyItemModel.fromJson(Map<String, dynamic> json) =>
-      _$BuyItemModelFromJson(json);
-  Map<String, dynamic> toJson() => _$BuyItemModelToJson(this);
+  factory SellItemModel.fromJson(Map<String, dynamic> json) =>
+      _$SellItemModelFromJson(json);
+  Map<String, dynamic> toJson() => _$SellItemModelToJson(this);
 }
