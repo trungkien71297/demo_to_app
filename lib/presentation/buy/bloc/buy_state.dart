@@ -19,3 +19,11 @@ class BuyFetched extends BuyState {
   @override
   List<Object> get props => [items];
 }
+
+class BuyError extends BuyState {
+  final String message;
+  const BuyError({required this.message});
+
+  @override
+  List<Object> get props => [message];
+}

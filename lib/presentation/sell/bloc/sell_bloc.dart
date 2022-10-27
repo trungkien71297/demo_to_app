@@ -20,7 +20,8 @@ class SellBloc extends Bloc<SellEvent, SellState> {
   Future<void> _onSellListFetch(
       SellListFetch event, Emitter<SellState> emit) async {
     emit(SellFetching());
-    var list = await _getSellList(NoParams());
-    emit(SellFetched(list));
+    var result = await _getSellList(NoParams());
+    result.fold((l) => emit(SellError(message: l.message)),
+        (r) => emit(SellFetched(r)));
   }
 }

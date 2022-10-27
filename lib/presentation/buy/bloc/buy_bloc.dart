@@ -20,7 +20,8 @@ class BuyBloc extends Bloc<BuyEvent, BuyState> {
   Future<void> _onFetchBuyList(
       BuyListFetch event, Emitter<BuyState> emit) async {
     emit(BuyFetching());
-    var list = await _getBuyList(NoParams());
-    emit(BuyFetched(list));
+    var result = await _getBuyList(NoParams());
+    result.fold(
+        (l) => emit(BuyError(message: l.message)), (r) => emit(BuyFetched(r)));
   }
 }

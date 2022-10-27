@@ -19,3 +19,11 @@ class SellFetched extends SellState {
   @override
   List<Object> get props => [items];
 }
+
+class SellError extends SellState {
+  final String message;
+  const SellError({required this.message});
+
+  @override
+  List<Object> get props => [message];
+}

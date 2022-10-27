@@ -13,8 +13,17 @@ class CallListPage extends StatelessWidget {
     return Scaffold(
         appBar: createAppBar('CALL LIST'),
         body: Center(
-          child: BlocBuilder(
+          child: BlocConsumer(
               bloc: BlocProvider.of<CallBloc>(context),
+              listener: (context, state) {
+                if (state is CallError) {
+                  ScaffoldMessenger.of(context)
+                    ..removeCurrentSnackBar()
+                    ..showSnackBar(SnackBar(content: Text(state.message)));
+                } else if (state is CallFetched) {
+                  ScaffoldMessenger.of(context).removeCurrentSnackBar();
+                }
+              },
               builder: ((context, state) {
                 if (state is CallInitial) {
                   BlocProvider.of<CallBloc>(context).add(CallListFetch());
@@ -23,6 +32,11 @@ class CallListPage extends StatelessWidget {
                   return const CircularProgressIndicator();
                 } else if (state is CallFetched) {
                   return CallListWidget(list: state.callList);
+                } else if (state is CallError) {
+                  return ElevatedButton(
+                      onPressed: () => BlocProvider.of<CallBloc>(context)
+                          .add(CallListFetch()),
+                      child: const Icon(Icons.refresh));
                 } else {
                   return const SizedBox();
                 }

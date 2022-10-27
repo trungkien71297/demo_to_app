@@ -1,14 +1,23 @@
+import 'package:demo_app/common/failure.dart';
+import 'package:dartz/dartz.dart';
 import 'package:demo_app/domain/call/entities/call_item.dart';
 import 'package:demo_app/domain/call/repositories/call_repository.dart';
-import 'package:demo_app/infrastructure/call/models/call_item_model.dart';
+import 'package:demo_app/infrastructure/call/datasources/call_remote_datasource.dart';
 
 class CallRepositoryImpl extends CallRepository {
+  final CallRemoteDataSource _callRemoteDataSource;
+
+  CallRepositoryImpl({required CallRemoteDataSource callRemoteDataSource})
+      : _callRemoteDataSource = callRemoteDataSource;
+
   @override
-  Future<List<CallItem>> getCallList() async {
-    await Future.delayed(const Duration(seconds: 3));
-    return List.generate(
-        5,
-        (index) =>
-            CallItemModel(id: index, name: "Corona", number: "123454123124"));
+  Future<Either<Failure, List<CallItem>>> getCallList() async {
+    try {
+      var result = await _callRemoteDataSource.getCallItems();
+      return Right(result);
+    } on Exception catch (e) {
+      return const Left(
+          NetWorkFailure(message: 'Error while call api, please try again'));
+    }
   }
 }

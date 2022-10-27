@@ -21,7 +21,8 @@ class CallBloc extends Bloc<CallEvent, CallState> {
   Future<void> _onCallListFetch(
       CallListFetch event, Emitter<CallState> emit) async {
     emit(CallFetching());
-    var list = await _getCallList(NoParams());
-    emit(CallFetched(list));
+    var result = await _getCallList(NoParams());
+    result.fold((l) => emit(CallError(message: l.message)),
+        (r) => emit(CallFetched(r)));
   }
 }

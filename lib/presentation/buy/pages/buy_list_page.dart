@@ -13,8 +13,17 @@ class BuyListPage extends StatelessWidget {
     return Scaffold(
         appBar: createAppBar('BUY LIST'),
         body: Center(
-          child: BlocBuilder(
+          child: BlocConsumer(
             bloc: BlocProvider.of<BuyBloc>(context),
+            listener: (context, state) {
+              if (state is BuyError) {
+                ScaffoldMessenger.of(context)
+                  ..removeCurrentSnackBar()
+                  ..showSnackBar(SnackBar(content: Text(state.message)));
+              } else if (state is BuyFetched) {
+                ScaffoldMessenger.of(context).removeCurrentSnackBar();
+              }
+            },
             builder: (context, state) {
               if (state is BuyInitial) {
                 BlocProvider.of<BuyBloc>(context).add(BuyListFetch());
@@ -23,6 +32,11 @@ class BuyListPage extends StatelessWidget {
                 return const CircularProgressIndicator();
               } else if (state is BuyFetched) {
                 return BuyListWidget(items: state.items);
+              } else if (state is BuyError) {
+                return ElevatedButton(
+                    onPressed: () =>
+                        BlocProvider.of<BuyBloc>(context).add(BuyListFetch()),
+                    child: const Icon(Icons.refresh));
               }
               return const SizedBox();
             },
