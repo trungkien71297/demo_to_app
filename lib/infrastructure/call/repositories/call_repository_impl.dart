@@ -15,7 +15,7 @@ class CallRepositoryImpl extends CallRepository {
     try {
       var result = await _callRemoteDataSource.getCallItems();
       return Right(result);
-    } on Exception catch (e) {
+    } on Exception catch (_) {
       return const Left(
           NetWorkFailure(message: 'Error while call api, please try again'));
     }

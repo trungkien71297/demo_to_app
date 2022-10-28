@@ -11,6 +11,11 @@ class SellItemModel extends SellItem {
       required quantity,
       required type})
       : super(id: id, name: name, price: price, quantity: quantity, type: type);
+  static const table = 'ItemToSell';
+  static const columns = ['id', 'name', 'price', 'quantity', 'type'];
+
+  static const migration =
+      'CREATE TABLE $table (id INTEGER PRIMARY KEY, name TEXT, price INTEGER, quantity INTEGER, type INTEGER)';
 
   @override
   List<Object> get props => [id, name, price, quantity, type];

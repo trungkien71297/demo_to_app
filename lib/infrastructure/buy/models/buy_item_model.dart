@@ -12,7 +12,6 @@ class BuyItemModel extends BuyItem {
       required quantity,
       required type})
       : super(id: id, name: name, price: price, quantity: quantity, type: type);
-
   @override
   List<Object> get props => [id, name, price, quantity, type];
 
